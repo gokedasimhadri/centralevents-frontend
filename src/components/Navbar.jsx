@@ -1,8 +1,7 @@
 import React from 'react';
-import { Calendar, Plus, Heart } from 'lucide-react';
+import { Calendar, Heart } from 'lucide-react';
 
 export default function Navbar({
-  onOpenAddModal,
   savedCount,
   onOpenSavedModal
 }) {
@@ -46,15 +45,6 @@ export default function Navbar({
                   {savedCount}
                 </span>
               )}
-            </button>
-
-            {/* Add Event Button */}
-            <button
-              onClick={onOpenAddModal}
-              className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-lg bg-[#FF5500] hover:bg-[#E64A00] active:scale-[0.98] text-white text-[15px] font-mono font-bold tracking-wider uppercase shadow-xs transition-all cursor-pointer"
-            >
-              <Plus className="w-4 h-4 stroke-[2.5]" />
-              <span>+ ADD EVENT</span>
             </button>
           </div>
 

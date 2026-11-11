@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Navbar from './components/Navbar';
 import EventCard from './components/EventCard';
-import AddEventModal from './components/AddEventModal';
 import SavedEventsModal from './components/SavedEventsModal';
 import Footer from './components/Footer';
 import { INITIAL_EVENTS } from './data/mockEvents';
@@ -31,7 +30,6 @@ export default function App() {
   });
 
   // Modals
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
 
   // Sync to localStorage
@@ -65,11 +63,6 @@ export default function App() {
     );
   };
 
-  // Add new event
-  const handleAddEvent = (newEvent) => {
-    setEvents((prev) => [newEvent, ...prev]);
-  };
-
   const savedEventsList = useMemo(() => {
     return events.filter((e) => savedEventIds.includes(e.id));
   }, [events, savedEventIds]);
@@ -78,7 +71,6 @@ export default function App() {
     <div className="min-h-screen bg-[#FBFBF9] text-[#111114] flex flex-col font-sans selection:bg-[#FF5500] selection:text-white">
       {/* Top Navbar */}
       <Navbar
-        onOpenAddModal={() => setIsAddModalOpen(true)}
         savedCount={savedEventIds.length}
         onOpenSavedModal={() => setIsSavedModalOpen(true)}
       />
@@ -129,14 +121,6 @@ export default function App() {
       </main>
 
       {/* Modals */}
-      {isAddModalOpen && (
-        <AddEventModal
-          isOpen={isAddModalOpen}
-          onClose={() => setIsAddModalOpen(false)}
-          onAddEvent={handleAddEvent}
-        />
-      )}
-
       {isSavedModalOpen && (
         <SavedEventsModal
           isOpen={isSavedModalOpen}
