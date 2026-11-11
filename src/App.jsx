@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Navbar from './components/Navbar';
 import EventCard from './components/EventCard';
-import EventDetailsModal from './components/EventDetailsModal';
 import AddEventModal from './components/AddEventModal';
 import SavedEventsModal from './components/SavedEventsModal';
-import TicketPassModal from './components/TicketPassModal';
 import Footer from './components/Footer';
 import { INITIAL_EVENTS } from './data/mockEvents';
 
@@ -33,8 +31,6 @@ export default function App() {
   });
 
   // Modals
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [bookingEvent, setBookingEvent] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
 
@@ -97,7 +93,7 @@ export default function App() {
               ALL UPCOMING EVENTS
             </h2>
             <p className="text-[15px] font-mono text-[#71717A] mt-1">
-              Click a card for full details or hit <span className="font-bold text-[#FF5500]">"Open Event Link"</span> to visit the registration page directly.
+              Click on any event card or <span className="font-bold text-[#FF5500]">"Visit Event Portal"</span> to directly open the official link.
             </p>
           </div>
 
@@ -114,7 +110,6 @@ export default function App() {
               <EventCard
                 key={evt.id}
                 event={evt}
-                onOpenDetails={setSelectedEvent}
                 isSaved={savedEventIds.includes(evt.id)}
                 onToggleSave={toggleSave}
               />
@@ -134,27 +129,6 @@ export default function App() {
       </main>
 
       {/* Modals */}
-      {selectedEvent && (
-        <EventDetailsModal
-          event={selectedEvent}
-          onClose={() => setSelectedEvent(null)}
-          isSaved={savedEventIds.includes(selectedEvent.id)}
-          onToggleSave={toggleSave}
-          onOpenBookPass={(evt) => {
-            setSelectedEvent(null);
-            setBookingEvent(evt);
-          }}
-        />
-      )}
-
-      {bookingEvent && (
-        <TicketPassModal
-          isOpen={Boolean(bookingEvent)}
-          onClose={() => setBookingEvent(null)}
-          event={bookingEvent}
-        />
-      )}
-
       {isAddModalOpen && (
         <AddEventModal
           isOpen={isAddModalOpen}
@@ -171,7 +145,9 @@ export default function App() {
           onRemoveSaved={toggleSave}
           onOpenDetails={(evt) => {
             setIsSavedModalOpen(false);
-            setSelectedEvent(evt);
+            if (evt.link) {
+              window.open(evt.link, '_blank', 'noopener,noreferrer');
+            }
           }}
         />
       )}
