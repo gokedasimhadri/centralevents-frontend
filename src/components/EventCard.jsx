@@ -1,9 +1,8 @@
 import React from 'react';
-import { Calendar, MapPin, Users, Heart, ArrowUpRight } from 'lucide-react';
+import { Calendar, MapPin, Heart, ArrowUpRight } from 'lucide-react';
 
 export default function EventCard({
   event,
-  onOpenDetails,
   isSaved,
   onToggleSave
 }) {
@@ -13,8 +12,7 @@ export default function EventCard({
     year: 'numeric'
   });
 
-  const handleOpenLink = (e) => {
-    e.stopPropagation();
+  const handleOpenLink = () => {
     if (event.link) {
       window.open(event.link, '_blank', 'noopener,noreferrer');
     }
@@ -22,8 +20,8 @@ export default function EventCard({
 
   return (
     <div
-      onClick={() => onOpenDetails(event)}
-      className="group relative bg-white rounded-xl border border-[#E6E6DE] hover:border-[#FF5500] hover:shadow-lg transition-all duration-200 flex flex-col cursor-pointer overflow-hidden"
+      onClick={handleOpenLink}
+      className="group relative bg-white rounded-xl border border-[#E6E6DE] hover:border-[#FF5500] hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer overflow-hidden hover:-translate-y-1"
     >
       {/* Event Image Banner */}
       <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
@@ -50,21 +48,23 @@ export default function EventCard({
         </div>
 
         {/* Bookmark Button */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleSave(event.id);
-          }}
-          className="absolute top-3.5 right-3.5 p-2.5 rounded-lg bg-white/90 backdrop-blur-md hover:bg-white text-slate-600 hover:text-rose-500 shadow-sm transition-all"
-          title={isSaved ? 'Remove from Saved' : 'Save Event'}
-        >
-          <Heart className={`w-4 h-4 transition-colors ${isSaved ? 'fill-rose-500 text-rose-500' : ''}`} />
-        </button>
+        {onToggleSave && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleSave(event.id);
+            }}
+            className="absolute top-3.5 right-3.5 p-2.5 rounded-lg bg-white/90 backdrop-blur-md hover:bg-white text-slate-600 hover:text-rose-500 shadow-sm transition-all"
+            title={isSaved ? 'Remove from Saved' : 'Save Event'}
+          >
+            <Heart className={`w-4 h-4 transition-colors ${isSaved ? 'fill-rose-500 text-rose-500' : ''}`} />
+          </button>
+        )}
 
         {/* Price Tag */}
         <div className="absolute bottom-3.5 right-3.5 px-3 py-1 rounded bg-white/95 backdrop-blur-md">
           <span className={`text-[14px] font-mono font-bold ${
-            event.price.toLowerCase() === 'free' ? 'text-emerald-600' : 'text-[#FF5500]'
+            event.price?.toLowerCase() === 'free' ? 'text-emerald-600' : 'text-[#FF5500]'
           }`}>
             {event.price}
           </span>
@@ -90,38 +90,29 @@ export default function EventCard({
             {event.tagline || event.description}
           </p>
 
-          <div className="mt-4 space-y-2 text-[15px] font-mono text-[#71717A]">
+          <div className="mt-4 text-[15px] font-mono text-[#71717A]">
             <div className="flex items-center gap-2 truncate">
               <MapPin className="w-4 h-4 text-[#FF5500] shrink-0" />
               <span className="truncate">{event.location}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-slate-400 shrink-0" />
-              <span>{event.attendees?.toLocaleString()} registered / {event.capacity} capacity</span>
-            </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="pt-4 border-t border-[#F4F4EE] flex items-center justify-between gap-3">
-          <button
-            onClick={handleOpenLink}
-            className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg bg-orange-50 hover:bg-[#FF5500] text-[#FF5500] hover:text-white font-mono font-bold text-[15px] transition-colors cursor-pointer"
-            title={`Open official link: ${event.link}`}
-          >
-            <span>Open Event Link</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </button>
-
-          <button
+        {/* Action Button - Direct Official Link */}
+        <div className="pt-4 border-t border-[#F4F4EE]">
+          <a
+            href={event.link}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={(e) => {
               e.stopPropagation();
-              onOpenDetails(event);
             }}
-            className="px-4 py-2.5 rounded-lg text-[#71717A] hover:text-[#111114] hover:bg-[#F4F4EE] font-mono font-semibold text-[15px] transition-colors"
+            className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#FF5500] hover:bg-[#E64A00] text-white font-mono font-bold text-[15px] tracking-wider uppercase shadow-sm transition-all"
+            title={`Visit: ${event.link}`}
           >
-            Details
-          </button>
+            <span>Visit Event Portal</span>
+            <ArrowUpRight className="w-4.5 h-4.5 stroke-[2.5]" />
+          </a>
         </div>
       </div>
     </div>

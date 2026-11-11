@@ -25,7 +25,7 @@ export default function Footer() {
               Engineered Theme UI
             </span>
             <span>Direct Event Links</span>
-            <span>Real-time Filtering</span>
+            <span>Official Portals</span>
           </div>
 
           <p className="text-[14px] font-mono text-[#71717A] text-center md:text-right">
