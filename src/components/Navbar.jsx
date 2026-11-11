@@ -9,7 +9,7 @@ export default function Navbar({
     <header className="sticky top-0 z-40 bg-[#FBFBF9]/95 backdrop-blur-md border-b border-[#E6E6DE] transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          
+
           {/* Logo & Brand */}
           <div className="flex items-center space-x-3.5 cursor-pointer group">
             <div className="w-11 h-11 rounded-lg bg-[#FF5500] flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
