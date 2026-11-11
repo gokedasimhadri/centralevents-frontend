@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, MapPin, Users, Heart, ArrowUpRight } from 'lucide-react';
+import { Calendar, MapPin, Heart, ArrowUpRight } from 'lucide-react';
 
 export default function EventCard({
   event,
@@ -90,14 +90,10 @@ export default function EventCard({
             {event.tagline || event.description}
           </p>
 
-          <div className="mt-4 space-y-2 text-[15px] font-mono text-[#71717A]">
+          <div className="mt-4 text-[15px] font-mono text-[#71717A]">
             <div className="flex items-center gap-2 truncate">
               <MapPin className="w-4 h-4 text-[#FF5500] shrink-0" />
               <span className="truncate">{event.location}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-slate-400 shrink-0" />
-              <span>{event.attendees?.toLocaleString()} registered / {event.capacity} capacity</span>
             </div>
           </div>
         </div>
